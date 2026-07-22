@@ -1,0 +1,14 @@
+Flask==3.1.2
+Werkzeug==3.0.3
+
+numpy
+pandas
+opencv-python-headless
+scipy
+Pillow
+PyYAML
+
+torch==2.0.1
+torchvision==0.15.2
+
+gunicorn==23.0.0

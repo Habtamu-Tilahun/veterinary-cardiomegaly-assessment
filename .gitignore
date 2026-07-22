@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Flask
+instance/
+*.sqlite3
+
+# Uploads / outputs (important for your app)
+static/images/*
+!static/images/.gitkeep
+
+# Model weights (VERY important - too large for git)
+models/*.pth
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Jupyter
+.ipynb_checkpoints/
