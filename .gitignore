@@ -19,7 +19,8 @@ static/images/*
 !static/images/.gitkeep
 
 # Model weights (VERY important - too large for git)
-models/*.pth
+models/
+*.pth
 
 # OS files
 .DS_Store
