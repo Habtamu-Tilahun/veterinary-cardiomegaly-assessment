@@ -1,0 +1,66 @@
+cff-version: 1.2.0
+message: "If you use this software in your research, please cite both this repository and the associated publication."
+
+title: "AI-based VeterinaryCardiomegaly Assessment"
+
+type: software
+
+authors:
+  - family-names: Mekonnen
+    given-names: Habtamu Tilahun
+    orcid: "https://orcid.org/0009-0006-9306-3423"
+
+repository-code: "https://github.com/Habtamu-Tilahun/veterinary-cardiomegaly-assessment"
+
+license: MIT
+
+version: "1.0.0"
+
+date-released: 2025-09-19
+
+preferred-citation:
+  type: article
+
+  authors:
+    - family-names: Mekonnen
+      given-names: Habtamu Tilahun
+    - family-names: Puig
+      given-names: Núria
+    - family-names: Elson
+      given-names: Alejandro
+    - family-names: López
+      given-names: Elena
+    - family-names: Martínez
+      given-names: Paula
+    - family-names: Campos
+      given-names: Selene
+    - family-names: Hernández
+      given-names: Francisco
+    - family-names: Mayor
+      given-names: Daniel
+    - family-names: Quilis
+      given-names: Jorge
+    - family-names: Cufí
+      given-names: Xavier
+    - family-names: Freixenet
+      given-names: Jordi
+    - family-names: Oliver
+      given-names: Arnau
+    - family-names: Lladó
+      given-names: Xavier
+    - family-names: Martí
+      given-names: Robert
+
+  title: "Deep learning framework for vertebral heart size and cardiothoracic ratio estimation in dogs and cats using thoracic radiographs"
+
+  journal: "Frontiers in Veterinary Science"
+
+  year: 2025
+
+  volume: 12
+
+  article-number: 1612338
+
+  doi: "10.3389/fvets.2025.1612338"
+
+  url: "https://doi.org/10.3389/fvets.2025.1612338"

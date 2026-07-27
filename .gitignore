@@ -1,34 +1,51 @@
+# =========================
 # Python
+# =========================
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
 *.log
 
+# =========================
 # Virtual environments
+# =========================
+.venv/
 venv/
 env/
-.venv/
 
+# =========================
 # Flask
+# =========================
 instance/
 *.sqlite3
 
-# Uploads / outputs (important for your app)
+# =========================
+# Generated images
+# =========================
 static/images/*
 !static/images/.gitkeep
+!static/images/logo.png
+!static/images/favicon_1.png
+!static/images/favicon_2.png
 
-# Model weights (VERY important - too large for git)
+# =========================
+# Model weights
+# =========================
 models/
 *.pth
 
+# =========================
 # OS files
+# =========================
 .DS_Store
 Thumbs.db
 
+# =========================
 # IDEs
+# =========================
 .vscode/
 .idea/
 
+# =========================
 # Jupyter
+# =========================
 .ipynb_checkpoints/

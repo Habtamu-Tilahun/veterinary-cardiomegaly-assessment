@@ -1,22 +1,49 @@
+# =========================
+# Python
+# =========================
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
 
+# =========================
+# Virtual environments
+# =========================
+.venv/
 venv/
 env/
-.venv/
 
+# =========================
+# Git
+# =========================
 .git/
 .gitignore
 
-models/*.pth
+# =========================
+# Model weights
+# =========================
+models/
+*.pth
 
+# =========================
+# Generated outputs
+# =========================
 static/images/*
+
+# Keep website assets
+!static/images/logo.png
+!static/images/favicon_1.png
+!static/images/favicon_2.png
+
+# Optional
 uploads/
 results/
 
+# =========================
+# IDE
+# =========================
 .vscode/
 .idea/
 
+# =========================
+# Jupyter
+# =========================
 .ipynb_checkpoints/

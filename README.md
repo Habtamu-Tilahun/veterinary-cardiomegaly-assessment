@@ -1,4 +1,4 @@
-# AI-based Cardiomegaly Assessment Web Application
+# AI-based Veterinary Cardiomegaly Assessment
 
 A Flask-based web application for automatic cardiomegaly assessment from veterinary thoracic radiographs using deep learning. The application estimates two commonly used cardiac biomarkers:
 
