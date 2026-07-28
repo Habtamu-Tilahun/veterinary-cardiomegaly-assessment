@@ -2,7 +2,9 @@ version: "3.9"
 
 services:
   cardiomegaly-app:
-    build: .
+    build:
+      context: .
+
     container_name: cardiomegaly-app
 
     ports:
@@ -10,8 +12,9 @@ services:
 
     volumes:
       - .:/app
-
-    restart: unless-stopped
+      - ./models:/app/models
 
     environment:
-      PYTHONUNBUFFERED: 1
+      PYTHONUNBUFFERED: "1"
+
+    restart: unless-stopped

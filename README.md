@@ -1,83 +1,255 @@
-# AI-based Veterinary Cardiomegaly Assessment
+# AI-based Cardiomegaly Assessment for Dogs and Cats
 
-A Flask-based web application for automatic cardiomegaly assessment from veterinary thoracic radiographs using deep learning. The application estimates two commonly used cardiac biomarkers:
+<p align="center">
+  <img src="static/images/homepage.png" width="900">
+</p>
 
-* **Cardiothoracic Ratio (CTR)** from ventrodorsal (VD) radiographs
-* **Buchanan Index (BI)** from lateral (LM) radiographs
+<p align="center">
 
-Users can upload an X-ray image through a simple web interface, and the application automatically performs image segmentation, anatomical landmark detection, biomarker estimation, and visualization of the results.
+[![Python](https://img.shields.io/badge/Python-3.10-blue.svg)]()
+[![Flask](https://img.shields.io/badge/Flask-3.1-lightgrey.svg)]()
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.0.1-red.svg)]()
+[![Detectron2](https://img.shields.io/badge/Detectron2-v0.6-green.svg)]()
+[![License](https://img.shields.io/badge/License-Research-blue.svg)]()
+[![DOI](https://img.shields.io/badge/DOI-10.3389%2Ffvets.2025.1612338-blue)](https://doi.org/10.3389/fvets.2025.1612338)
 
----
-
-## Features
-
-* Automatic heart, thorax, T4 vertebra, and carina segmentation
-* Automatic computation of:
-
-  * Cardiothoracic Ratio (CTR)
-  * Buchanan Index (BI)
-* Visualization of predicted contours and anatomical measurements
-* Flask web interface
-* Modular software architecture
-* Docker support
-* Detectron2 Mask R-CNN inference
+</p>
 
 ---
 
-## Project Structure
+## Overview
 
-```
+This repository contains the official implementation accompanying the published paper:
+
+> **Deep learning framework for vertebral heart size and cardiothoracic ratio estimation in dogs and cats using thoracic radiographs**
+
+The software provides an AI-assisted web application for the automatic assessment of **cardiomegaly** in dogs and cats from thoracic radiographs. Using deep learning-based anatomical segmentation, the application automatically estimates two clinically important cardiac biomarkers:
+
+- **Vertebral Heart Size (VHS, Buchanan Index)**
+- **Cardiothoracic Ratio (CTR)**
+
+The framework integrates image segmentation, anatomical landmark detection, quantitative measurement, and visual interpretation into a simple web interface designed to assist veterinary clinicians.
+
+---
+
+# Publication
+
+**Mekonnen HT, Puig N, Elson A, López E, Martínez P, Campos S, Hernández F, Mayor D, Quilis J, Cufí X, Freixenet J, Oliver A, Lladó X and Martí R (2025).**
+
+**Deep learning framework for vertebral heart size and cardiothoracic ratio estimation in dogs and cats using thoracic radiographs.**
+
+*Frontiers in Veterinary Science.*
+
+Volume 12, 2025.
+
+DOI:
+
+https://doi.org/10.3389/fvets.2025.1612338
+
+---
+
+# Workflow
+
+<p align="center">
+<img src="static/images/workflow.png" width="900">
+</p>
+
+The proposed framework automatically performs:
+
+1. Thoracic radiograph upload
+2. Deep learning segmentation using Mask R-CNN
+3. Anatomical landmark localization
+4. Automatic cardiac biomarker estimation
+5. Diagnostic interpretation
+6. Visualization of measurements
+
+---
+
+# Features
+
+✅ Automatic segmentation of
+
+- Heart
+- Thorax
+- Fourth thoracic vertebra (T4)
+- Carina
+
+✅ Automatic estimation of
+
+- Vertebral Heart Size (VHS / Buchanan Index)
+- Cardiothoracic Ratio (CTR)
+
+✅ Automatic visualization
+
+- Segmentation masks
+- Anatomical landmarks
+- Measurement axes
+- Clinical report
+
+✅ Interactive web interface
+
+- Drag-and-drop image upload
+- Image preview
+- AI inference
+- Printable reports
+- PDF export
+
+✅ Research-oriented software architecture
+
+- Flask
+- Detectron2
+- PyTorch
+- Docker
+- Modular design
+
+---
+
+# Web Application
+
+## Home Page
+
+<p align="center">
+<img src="static/images/homepage.png" width="900">
+</p>
+
+---
+
+## Buchanan Index Estimation
+
+<p align="center">
+<img src="static/images/bi_page.png" width="900">
+</p>
+
+---
+
+## Cardiothoracic Ratio Estimation
+
+<p align="center">
+<img src="static/images/ctr_page.png" width="900">
+</p>
+
+---
+
+## Example Result
+
+<p align="center">
+<img src="static/images/example_result.png" width="900">
+</p>
+
+---
+
+# Project Structure
+
+```text
 .
 ├── app.py
 ├── config.py
 ├── predictor.py
 ├── services/
+│   ├── bi_service.py
+│   └── ctr_service.py
 ├── utils/
-├── models/
-├── static/
 ├── templates/
+├── static/
+├── models/
 ├── Dockerfile
 ├── docker-compose.yml
-└── requirements.txt
+├── requirements.txt
+├── LICENSE
+├── CITATION.cff
+└── README.md
 ```
 
 ---
 
-## Technology Stack
+# Technology Stack
 
-* Python
-* Flask
-* Detectron2
-* PyTorch
-* OpenCV
-* NumPy
-* SciPy
-* Docker
+- Python
+- Flask
+- Detectron2
+- PyTorch
+- OpenCV
+- NumPy
+- SciPy
+- Docker
 
 ---
 
-## Installation
+# Installation
 
-Clone the repository:
+Clone the repository
 
 ```bash
-git clone <repository-url>
-cd cardiomegaly-app
+git clone https://github.com/Habtamu-Tilahun/veterinary-cardiomegaly-assessment.git
+
+cd veterinary-cardiomegaly-assessment
 ```
 
-Install dependencies:
+Create a virtual environment
+
+```bash
+python -m venv .venv
+```
+
+Activate it
+
+Linux/macOS
+
+```bash
+source .venv/bin/activate
+```
+
+Windows
+
+```bash
+.venv\Scripts\activate
+```
+
+Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Run the application:
+Install Detectron2
+
+```bash
+pip install --no-build-isolation "git+https://github.com/facebookresearch/detectron2.git@v0.6"
+```
+
+---
+
+# Model Weights
+
+The trained Detectron2 model weights are **not included** in this repository due to their size.
+
+Download the following files and place them inside
+
+```text
+models/
+```
+
+Required files
+
+```text
+models/
+├── ctr_model.pth
+├── bi_model.pth
+```
+
+Update `config.py` if necessary to point to the downloaded model weights.
+
+---
+
+# Running the Application
+
+Run locally
 
 ```bash
 python app.py
 ```
 
-Open:
+Open
 
 ```
 http://localhost:5000
@@ -85,21 +257,21 @@ http://localhost:5000
 
 ---
 
-## Running with Docker
+# Docker
 
-Build the Docker image:
-
-```bash
-docker-compose build
-```
-
-Start the application:
+Build
 
 ```bash
-docker-compose up
+docker compose build
 ```
 
-Open:
+Run
+
+```bash
+docker compose up
+```
+
+Then open
 
 ```
 http://localhost:5000
@@ -107,75 +279,75 @@ http://localhost:5000
 
 ---
 
-## Models
+# Example Workflow
 
-The application uses two Detectron2 Mask R-CNN models:
+1. Open the web application.
 
-### Buchanan Index
+2. Select either
 
-Segments:
+- Buchanan Index estimation
 
-* Heart
-* T4 vertebra
-* Carina
+or
 
-Outputs:
+- Cardiothoracic Ratio estimation.
 
-* Cardiac long axis
-* Cardiac short axis
-* T4 size
-* Buchanan Index
-* Diagnostic finding
+3. Upload a thoracic radiograph.
 
----
+4. The trained Mask R-CNN model automatically segments the anatomical structures.
 
-### Cardiothoracic Ratio
+5. The application computes the requested cardiac biomarker.
 
-Segments:
-
-* Heart
-* Thorax
-
-Outputs:
-
-* Heart size
-* Thorax size
-* Cardiothoracic Ratio
-* Diagnostic finding
+6. The predicted measurements and annotated image are displayed together with a clinical interpretation.
 
 ---
 
-## Example Workflow
+# Citation
 
-1. Upload a thoracic radiograph.
-2. The image is processed by the appropriate Detectron2 model.
-3. Anatomical structures are segmented.
-4. Cardiac measurements are computed automatically.
-5. The application displays the estimated biomarker values and an annotated image.
+If you use this software in your research, please cite:
 
----
+```bibtex
+@article{Mekonnen2025,
+  title={Deep learning framework for vertebral heart size and cardiothoracic ratio estimation in dogs and cats using thoracic radiographs},
+  author={Mekonnen, Habtamu Tilahun and Puig, Núria and Elson, Alejandro and López, Elena and Martínez, Paula and Campos, Selene and Hernández, Francisco and Mayor, Daniel and Quilis, Jorge and Cufí, Xavier and Freixenet, Jordi and Oliver, Arnau and Lladó, Xavier and Martí, Robert},
+  journal={Frontiers in Veterinary Science},
+  volume={12},
+  year={2025},
+  doi={10.3389/fvets.2025.1612338}
+}
+```
 
-## Future Improvements
-
-* REST API
-* Batch inference
-* DICOM support
-* Confidence scores
-* GPU/CPU automatic selection
-* Unit testing
-* Continuous Integration (CI)
-* Cloud deployment
+The repository also includes a `CITATION.cff` file for automatic citation generation by GitHub.
 
 ---
 
-## License
+# License
 
-This project is intended for research and educational purposes.
+This repository is released for **research and educational purposes**.
+
+Please cite the accompanying publication when using this software in academic work.
 
 ---
 
-## Author
+# Acknowledgements
 
-Habtamu Mekonnen
+This project was developed through a collaborative effort between the **Computer Vision and Robotics Research Institute (ViCOROB)** at the **University of Girona (UdG)**, **Substrate AI**, **4D Médica**, **Hospital Veterinario Bluecare**, and **Integral Clínica Veterinaria Cullera**.
 
-Medical Image Analysis | Computer Vision | Deep Learning
+We sincerely thank the veterinary teams at **Hospital Veterinario Bluecare** and **Integral Clínica Veterinaria Cullera** for providing the thoracic radiographs, expert clinical annotations, and independent evaluations that were essential for the development and validation of this work.
+
+We also gratefully acknowledge **Substrate AI** for its project management and coordination, and **4D Médica** for its collaboration and technical support throughout the project. We thank the **University of Girona** for providing the research environment and scientific guidance that made this work possible.
+
+This work was partially supported through a research collaboration agreement between **Substrate AI** and the **University of Girona**.
+
+---
+
+# Author
+
+**Habtamu Mekonnen**
+
+Medical Image Analysis • Computer Vision • Deep Learning
+
+GitHub: https://github.com/Habtamu-Tilahun
+
+Google Scholar: https://scholar.google.com/citations?user=0Mrsbl0AAAAJ&hl=en
+
+LinkedIn: https://www.linkedin.com/in/habtamu-tilahun-mekonnen/
