@@ -162,16 +162,15 @@ The proposed framework automatically performs:
 
 ---
 
-# Technology Stack
+## Technology Stack
 
-- Python
-- Flask
-- Detectron2
-- PyTorch
-- OpenCV
-- NumPy
-- SciPy
-- Docker
+- **Programming Language:** Python
+- **Web Framework:** Flask
+- **Deep Learning Frameworks:** PyTorch, Torchvision, Detectron2
+- **Computer Vision Libraries:** OpenCV, Pillow
+- **Scientific Computing:** NumPy, SciPy, Pandas
+- **Configuration Management:** PyYAML
+- **Deployment:** Docker, Gunicorn
 
 ---
 
@@ -219,25 +218,22 @@ pip install --no-build-isolation "git+https://github.com/facebookresearch/detect
 
 ---
 
-# Model Weights
+## Model Weights
 
-The trained Detectron2 model weights are **not included** in this repository due to their size.
+The trained **Detectron2 Mask R-CNN** model weights are not included in this repository due to their size. They can be downloaded from the Hugging Face Model Hub:
 
-Download the following files and place them inside
+**https://huggingface.co/Habtamu-Tilahun/veterinary-cardiomegaly-assessment-models**
 
-```text
-models/
-```
-
-Required files
+Download the following files and place them in the `models/weights/` directory:
 
 ```text
 models/
-├── ctr_model.pth
-├── bi_model.pth
+└── weights/
+    ├── model_4050_256_2_5e-3.pth   # VHS estimation model
+    └── model_5600_256_2_5e-3.pth   # CTR estimation model
 ```
 
-Update `config.py` if necessary to point to the downloaded model weights.
+The application expects these model weights in the `models/weights/` directory. If you store them elsewhere, update the model paths in the application accordingly.
 
 ---
 
@@ -285,7 +281,7 @@ http://localhost:5000
 
 2. Select either
 
-- Buchanan Index estimation
+- Vertebral Heart Size estimation
 
 or
 
