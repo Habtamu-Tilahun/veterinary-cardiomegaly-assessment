@@ -1,7 +1,7 @@
 # AI-based Cardiomegaly Assessment for Dogs and Cats
 
 <p align="center">
-  <img src="static/images/homepage.png" width="900">
+  <img src="static/images/homepage_1.png" width="900">
 </p>
 
 <p align="center">
@@ -51,7 +51,7 @@ https://doi.org/10.3389/fvets.2025.1612338
 # Workflow
 
 <p align="center">
-<img src="static/images/workflow.png" width="900">
+<img src="static/images/workflow.jpg" width="900">
 </p>
 
 The proposed framework automatically performs:
@@ -109,23 +109,23 @@ The proposed framework automatically performs:
 ## Home Page
 
 <p align="center">
-<img src="static/images/homepage.png" width="900">
+<img src="static/images/homepage_2.png" width="900">
 </p>
 
 ---
 
-## Buchanan Index Estimation
+## Vertebral Heart Size Estimation
 
 <p align="center">
-<img src="static/images/bi_page.png" width="900">
+<img src="static/images/VHS_upload.png" width="900">
 </p>
 
 ---
 
-## Cardiothoracic Ratio Estimation
+## Analyzing Radiograph
 
 <p align="center">
-<img src="static/images/ctr_page.png" width="900">
+<img src="static/images/Spinner.png" width="900">
 </p>
 
 ---
@@ -133,7 +133,7 @@ The proposed framework automatically performs:
 ## Example Result
 
 <p align="center">
-<img src="static/images/example_result.png" width="900">
+<img src="static/images/VHS_report_normal.png" width="900">
 </p>
 
 ---
