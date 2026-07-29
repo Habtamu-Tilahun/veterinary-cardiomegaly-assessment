@@ -1,7 +1,7 @@
 # AI-based Cardiomegaly Assessment for Dogs and Cats
 
 <p align="center">
-  <img src="static/images/homepage_1.png" width="900">
+  <img src="static/images/homepage.png" width="900">
 </p>
 
 <p align="center">
@@ -109,7 +109,7 @@ The proposed framework automatically performs:
 ## Home Page
 
 <p align="center">
-<img src="static/images/homepage_2.png" width="900">
+<img src="static/images/homepage.png" width="900">
 </p>
 
 ---
