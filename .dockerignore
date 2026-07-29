@@ -29,8 +29,7 @@ models/
 static/images/*
 
 # Keep website assets
-!static/images/homepage_1.png
-!static/images/homepage_2.png
+!static/images/homepage.png
 !static/images/workflow.jpg
 !static/images/VHS_upload.png
 !static/images/Spinner.png
