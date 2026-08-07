@@ -1,3 +1,4 @@
+// Print the AI analysis report
 $(document).ready(function(){
     $('#btn-print').click(function(){
         $('#report-card').printThis();
