@@ -19,10 +19,12 @@ instance/
 *.sqlite3
 
 # =========================
-# Generated images
+# Runtime generated images
 # =========================
 static/images/*
 !static/images/.gitkeep
+
+# Keep website assets
 !static/images/homepage.png
 !static/images/workflow.jpg
 !static/images/VHS_upload.png
@@ -34,7 +36,7 @@ static/images/*
 # =========================
 # Model weights
 # =========================
-models/
+models/weights/
 *.pth
 
 # =========================

@@ -20,11 +20,11 @@ env/
 # =========================
 # Model weights
 # =========================
-models/
+models/weights/
 *.pth
 
 # =========================
-# Generated outputs
+# Runtime generated images
 # =========================
 static/images/*
 
