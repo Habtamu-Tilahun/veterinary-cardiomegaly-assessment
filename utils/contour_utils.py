@@ -4,6 +4,9 @@ from scipy.interpolate import splprep, splev
 
 
 def largest_contour(mask):
+    """
+    Extract the contour with the largest area from a binary mask.
+    """
 
     contours, _ = cv2.findContours(
         mask,
@@ -18,6 +21,9 @@ def largest_contour(mask):
 
 
 def smooth_contour(contour, smoothing=1000):
+    """
+    Generate a smoothed contour using spline interpolation.
+    """
 
     contour = contour.squeeze()
 
