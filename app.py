@@ -12,16 +12,10 @@ from utils.image_utils import read_image
 
 app = Flask(__name__)
 
-# -------------------------------------------------------
-# Ensure upload directory exists
-# -------------------------------------------------------
-
+# Directory for uploaded radiographs and generated inference results
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
-# -------------------------------------------------------
-# Load models once (important for performance)
-# -------------------------------------------------------
-
+# Load Detectron2 segmentation models for the two analysis tasks
 ctr_predictor = DetectronPredictor(
     config_path=CTR_MODEL["config_path"],
     weights_path=str(CTR_MODEL["weights_path"]),
@@ -32,22 +26,21 @@ bi_predictor = DetectronPredictor(
     weights_path=str(BI_MODEL["weights_path"]),
 )
 
+# Task-specific services encapsulating image analysis workflows
 ctr_service = CTRService(ctr_predictor)
 bi_service = BIService(bi_predictor)
 
-# -------------------------------------------------------
-# Home
-# -------------------------------------------------------
+# ======================================================
+# Web Routes
+# ======================================================
 
+# Landing page
 @app.route("/")
 def home():
     return render_template("index.html")
 
 
-# -------------------------------------------------------
-# CTR
-# -------------------------------------------------------
-
+# CTR estimation workflow
 @app.route("/ctr", methods=["GET", "POST"])
 def ctr():
 
@@ -64,15 +57,15 @@ def ctr():
 
     try:
 
-        # Save uploaded image
+        # Prepare input image for inference
         input_path = save_file(file, UPLOAD_DIR)
 
         image = read_image(input_path)
 
-        # Run inference
+        # Execute CTR estimation pipeline
         result = ctr_service.predict(image)
 
-        # Save annotated image
+        # Store visualization generated during inference
         output_filename = "output_" + secure_filename(file.filename)
 
         output_path = os.path.join(
@@ -98,10 +91,7 @@ def ctr():
         return {"error": str(e)}, 500
 
 
-# -------------------------------------------------------
-# BI
-# -------------------------------------------------------
-
+# VHS estimation workflow
 @app.route("/bi", methods=["GET", "POST"])
 def bi():
 
@@ -118,15 +108,15 @@ def bi():
 
     try:
 
-        # Save uploaded image
+        # Prepare input image for inference
         input_path = save_file(file, UPLOAD_DIR)
 
         image = read_image(input_path)
 
-        # Run inference
+        # Execute VHS estimation pipeline
         result = bi_service.predict(image)
 
-        # Save annotated image
+        # Store visualization generated during inference
         output_filename = "output_" + secure_filename(file.filename)
 
         output_path = os.path.join(
@@ -152,10 +142,7 @@ def bi():
         return {"error": str(e)}, 500
 
 
-# -------------------------------------------------------
-# Run application
-# -------------------------------------------------------
-
+# Application entry point
 if __name__ == "__main__":
 
     app.run(
