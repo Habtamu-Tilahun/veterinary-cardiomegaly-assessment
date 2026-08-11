@@ -10,23 +10,15 @@ from utils.contour_utils import (
 
 class CTRService:
     """
-    Cardiothoracic Ratio (CTR) estimation service.
-
-    This implementation preserves the exact computational procedure
-    described in the original publication while improving software
-    structure and readability.
+    Service responsible for estimating the Cardiothoracic Ratio
+    (CTR) from thoracic radiographs and generating the associated
+    measurements and visualization.
     """
 
-    # ---------------------------------------------------------
-    # Constructor
-    # ---------------------------------------------------------
-
+    # Initialize the segmentation predictor.
     def __init__(self, predictor):
         self.predictor = predictor
 
-    # ---------------------------------------------------------
-    # Private helper
-    # ---------------------------------------------------------
 
     def _best_mask(self, classes, masks, scores, class_id):
         """
@@ -42,17 +34,12 @@ class CTRService:
 
         return masks[idx][best].cpu().numpy().astype("uint8")
 
-    # ---------------------------------------------------------
-    # Private helper
-    # ---------------------------------------------------------
-
+ 
     @staticmethod
     def _vertical_axis(contour, x_coordinate):
         """
         Finds the uppermost and lowermost contour points
         that share the same x-coordinate.
-
-        This reproduces the original implementation exactly.
         """
 
         contour_points = contour[:, 0, :]
@@ -76,10 +63,8 @@ class CTRService:
 
         return top, bottom
 
-    # ---------------------------------------------------------
-    # Main prediction
-    # ---------------------------------------------------------
 
+    # Perform segmentation, anatomical measurements, CTR estimation, and visualization.
     def predict(self, image):
 
         outputs = self.predictor(image)
@@ -89,7 +74,7 @@ class CTRService:
         scores = outputs["instances"].scores
 
         # =====================================================
-        # HEART
+        # Heart measurement
         # =====================================================
 
         heart_mask = self._best_mask(
@@ -104,15 +89,11 @@ class CTRService:
         if heart_contour is None:
             raise ValueError("Heart contour not found.")
 
-        # Bounding rectangle
-
         x, y, w, h = cv2.boundingRect(heart_contour)
 
         heart_x = x + w // 2
 
-        # Original algorithm:
-        # measure heart vertically through bounding-box centre
-
+        # Measure the heart through the center of its bounding box.
         heart_top, heart_bottom = self._vertical_axis(
             heart_contour,
             heart_x,
@@ -132,7 +113,7 @@ class CTRService:
         )
 
         # =====================================================
-        # THORAX
+        # Thoracic measurement
         # =====================================================
 
         thorax_mask = self._best_mask(
@@ -168,7 +149,7 @@ class CTRService:
         )
 
         # =====================================================
-        # CTR
+        # CTR estimation
         # =====================================================
 
         ctr = heart_size / thorax_size
@@ -181,7 +162,6 @@ class CTRService:
 
         # =====================================================
         # Visualization
-        # (exactly as original code)
         # =====================================================
 
         smoothed_heart = smooth_contour(
@@ -210,15 +190,14 @@ class CTRService:
             4,
         )
 
-        # Rotate for visualization exactly like the paper
-
+        # Rotate the annotated image for report visualization.
         image = cv2.rotate(
             image,
             cv2.ROTATE_90_CLOCKWISE,
         )
 
         # =====================================================
-        # Return
+        # Results
         # =====================================================
 
         return {
