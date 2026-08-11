@@ -3,27 +3,21 @@ import numpy as np
 
 from config import PIXEL_TO_MM, BI_THRESHOLD
 
-
 class BIService:
     """
-    Buchanan Index (BI) estimation service.
-
-    This implementation preserves the exact computational procedure used
-    in the published work while improving code organization.
+    Encapsulates the complete vertebral heart size (VHS) estimation
+    workflow, including anatomical segmentation, landmark
+    detection, measurement extraction, and visualization.
     """
 
+    # Initialize the segmentation predictor.
     def __init__(self, predictor):
         self.predictor = predictor
 
-    # ------------------------------------------------------------------
-    # Prediction utilities
-    # ------------------------------------------------------------------
 
     def _get_best_prediction(self, pred_masks, pred_boxes, scores, class_indices):
         """
-        Select the highest-confidence prediction for one class.
-
-        This follows exactly the same logic as the original implementation.
+        Returns the highest-confidence prediction for a target class.
         """
 
         class_indices_np = class_indices.cpu().numpy().flatten()
@@ -56,19 +50,10 @@ class BIService:
 
         return mask, contour, box
 
-    # ------------------------------------------------------------------
 
-    def _get_best_carina_prediction(
-        self,
-        pred_masks,
-        pred_boxes,
-        scores,
-        class_indices,
-    ):
+    def _get_best_carina_prediction(self, pred_masks, pred_boxes, scores, class_indices):
         """
-        Special handling for the carina class.
-
-        Kept identical to the original code.
+        Returns the highest-confidence prediction for the carina class.
         """
 
         class_indices_squeezed = class_indices.squeeze()
@@ -104,15 +89,12 @@ class BIService:
 
         return mask, contour, box
 
-    # ------------------------------------------------------------------
-
+    
     @staticmethod
     def _get_intersection_point(heart_box, carina_box):
         """
-        Compute the top-center point of the intersection between
-        the heart and carina bounding boxes.
-
-        Identical to the original implementation.
+        Computes the top-center intersection point between the
+        heart and carina bounding boxes.
         """
 
         x1_h, y1_h, x2_h, y2_h = heart_box
@@ -129,14 +111,12 @@ class BIService:
 
         return np.array([point_x, point_y])
 
-    # ------------------------------------------------------------------
 
     @staticmethod
     def _find_apex(heart_contour, carina_point):
         """
-        Find the contour point farthest from the carina point.
-
-        Exact algorithm from the original implementation.
+        Identifies the cardiac apex as the contour point farthest
+        from the carina landmark.
         """
 
         max_distance = 0
@@ -154,15 +134,12 @@ class BIService:
 
         return apex, max_distance
 
-    # ------------------------------------------------------------------
 
     @staticmethod
     def _get_minor_axis(perpendicular_slope, heart_contour):
         """
-        Search for the longest contour segment whose slope matches
-        the perpendicular slope.
-
-        This is intentionally identical to the published implementation.
+        Determines the cardiac short axis by searching for the
+        longest contour segment perpendicular to the major axis.
         """
 
         max_distance = 0
@@ -206,14 +183,12 @@ class BIService:
 
         return pt1, pt2, max_distance
 
+
     def predict(self, image):
         """
-        Estimate Buchanan Index.
+        Performs VHS estimation and generates the
+        corresponding measurements and visualization.
         """
-
-        # ----------------------------------------------------------
-        # Run Detectron2 inference
-        # ----------------------------------------------------------
 
         outputs = self.predictor(image)
 
@@ -221,10 +196,6 @@ class BIService:
         pred_masks = outputs["instances"].pred_masks
         pred_boxes = outputs["instances"].pred_boxes
         scores = outputs["instances"].scores
-
-        # ----------------------------------------------------------
-        # Locate classes
-        # ----------------------------------------------------------
 
         class_zero_indices = (pred_classes == 0).nonzero()
         class_one_indices = (pred_classes == 1).nonzero()
@@ -239,10 +210,7 @@ class BIService:
                 "Heart, T4 or Carina could not be detected."
             )
 
-        # ----------------------------------------------------------
-        # Heart
-        # ----------------------------------------------------------
-
+        # Heart segmentation
         (
             heart_mask,
             heart_contour,
@@ -256,10 +224,7 @@ class BIService:
 
         x1_heart, y1_heart, x2_heart, y2_heart = heart_box
 
-        # ----------------------------------------------------------
-        # Carina
-        # ----------------------------------------------------------
-
+        # Carina segmentation
         (
             carina_mask,
             carina_contour,
@@ -273,11 +238,7 @@ class BIService:
 
         x1_carina, y1_carina, x2_carina, y2_carina = carina_box
 
-        # ----------------------------------------------------------
-        # Carina landmark
-        # (identical to original implementation)
-        # ----------------------------------------------------------
-
+        # Estimate the carina landmark point
         p_carina = self._get_intersection_point(
             heart_box,
             carina_box,
@@ -286,19 +247,7 @@ class BIService:
         point_x = p_carina[0]
         point_y = p_carina[1]
 
-        # Uncomment for debugging if desired
-        # cv2.circle(
-        #     image,
-        #     (int(point_x), int(point_y)),
-        #     10,
-        #     (0, 0, 255),
-        #     -1,
-        # )
-
-        # ----------------------------------------------------------
-        # Heart major axis
-        # ----------------------------------------------------------
-
+        # Compute cardiac long-axis measurement
         p_apex, max_distance = self._find_apex(
             heart_contour,
             p_carina,
@@ -316,10 +265,7 @@ class BIService:
             max_distance * PIXEL_TO_MM
         )
 
-        # ----------------------------------------------------------
-        # Heart minor axis
-        # ----------------------------------------------------------
-
+        # Compute cardiac short-axis measurement
         slope = (
             (p_apex[1] - p_carina[1])
             /
@@ -350,10 +296,7 @@ class BIService:
 
         heart_minor_axis_length *= PIXEL_TO_MM
 
-        # ----------------------------------------------------------
-        # T4
-        # ----------------------------------------------------------
-
+        # T4 segmentation
         (
             t4_mask,
             t4_contour,
@@ -365,11 +308,7 @@ class BIService:
             class_one_indices,
         )
 
-        # ----------------------------------------------------------
-        # Fit ellipse to T4
-        # (identical to original implementation)
-        # ----------------------------------------------------------
-
+        # Fit an ellipse to the T4 contour for anatomical measurement
         t4_ellipse = cv2.fitEllipse(t4_contour)
 
         cv2.ellipse(
@@ -379,10 +318,7 @@ class BIService:
             4,
         )
 
-        # ----------------------------------------------------------
-        # Major axis of fitted ellipse
-        # ----------------------------------------------------------
-
+        # Compute T4 vertebral size from the major axis of the fitted ellipse
         t4_major_axis_length = max(
             t4_ellipse[1][0],
             t4_ellipse[1][1],
@@ -432,10 +368,7 @@ class BIService:
 
         t4_major_axis_length *= PIXEL_TO_MM
 
-        # ----------------------------------------------------------
-        # Buchanan Index
-        # ----------------------------------------------------------
-
+        # VHS estimation
         bi = (
             heart_major_axis_length
             + heart_minor_axis_length
@@ -446,10 +379,7 @@ class BIService:
         else:
             finding = "No finding"
 
-        # ----------------------------------------------------------
-        # Draw contours
-        # ----------------------------------------------------------
-
+        # Visualization
         cv2.drawContours(
             image,
             [heart_contour],
@@ -474,10 +404,7 @@ class BIService:
             5,
         )
 
-        # ----------------------------------------------------------
-        # Return identical outputs
-        # ----------------------------------------------------------
-
+        # Results
         return {
             "Cardiac long axis": round(
                 heart_major_axis_length,
