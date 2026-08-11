@@ -1,29 +1,67 @@
-:root {
+/* ================= GLOBAL THEME ================= */
+
+:root{
     --primary:#1e3a5f;
     --secondary:#2b6cb0;
+    --accent:#0ea5a4;
+    --light:#f4f7fb;
+    --text:#2d3748;
 }
 
-/* Navbar */
-.navbar {
-    background: var(--primary);
-    box-shadow: 0 3px 12px rgba(0,0,0,.12);
+body{
+    background:var(--light);
+    color:var(--text);
+    font-family:"Segoe UI", 
+                Tahoma, 
+                Geneva, 
+                Verdana, 
+                sans-serif;
 }
 
-.navbar-brand {
-    font-weight: 700;
-    font-size: 1.35rem;
-    color: white !important;
+/* ================= NAVIGATION ================= */
+
+.navbar{
+    background:var(--primary);
+    box-shadow:0 3px 12px rgba(0,0,0,.12);
 }
 
-.nav-link {
-    color: rgba(255,255,255,.85) !important;
-    font-weight: 500;
+.navbar-brand{
+    font-weight:700;
+    font-size:1.35rem;
+    color:white !important;
+    display:flex;
+    align-items:center;
+    padding-top:0;
+    padding-bottom:0;
 }
 
-.nav-link.active {
-    color: white !important;
+.navbar-brand img{
+    object-fit:contain;
 }
 
-.nav-link:hover {
-    color: #6ec1ff !important;
+.nav-link{
+    color:white !important;
+    font-weight:500;
+    transition: color 0.2s ease;
+}
+
+.nav-link.active{
+    color:white!important;
+    border-bottom:2px solid #6ec1ff;
+}
+
+.nav-link:hover{
+    color:#6ec1ff!important;
+    border-bottom:2px solid #6ec1ff;
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+    margin-top:70px;
+    background:white;
+    padding:25px;
+    text-align:center;
+    color:#666;
+    border-top:1px solid #ddd;
 }
