@@ -132,26 +132,24 @@
 
         /* CTR report layout for presenting model output and clinical interpretation */
         .ctr-report-wrapper{
-            background:white;
-            border-radius:22px;
-            padding:30px;
-            box-shadow:0 12px 30px rgba(0,0,0,.10);
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 1rem 3rem rgba(0,0,0,.175);
+            overflow: hidden;
         }
 
         .ctr-report-header{
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
             background: var(--secondary);
-            color:white;
-            padding:22px 30px;
-            border-radius:18px;
-            margin-bottom:30px;
+            color: white;
+            padding: 16px 20px;
         }
 
         .ctr-report-header h3{
-            margin:0;
-            font-weight:700;
+            margin: 0;
+        }
+
+        .ctr-report-body{
+            padding: 24px;
         }
 
         /* Visualization panel showing AI segmentation output */
@@ -169,7 +167,6 @@
 
         .ctr-image-title{
             color:var(--primary);
-            font-weight:700;
             margin-bottom:20px;
             text-align:left;
         }
@@ -625,184 +622,193 @@
 
             <div class="ctr-report-wrapper mt-5">
 
-                <div class="ctr-report-header">
+                <div id="report-card">
 
-                    <h3>
-                        <i class="bi bi-clipboard2-pulse-fill me-2"></i>
-                        CTR Analysis Report
-                    </h3>
+                    <!-- Report header -->
+                    <div class="ctr-report-header">
 
-                </div>
+                        <h3>
+                            <i class="bi bi-clipboard2-pulse-fill me-2"></i>
+                            CTR Analysis Report
+                        </h3>
 
-                <div class="row g-4">
+                    </div>
 
-                    <!-- Segmentation visualization -->
-                    <div class="col-lg-6">
+                    <div class="ctr-report-body">
+                        
+                        <div class="row g-4">
 
-                        <div class="ctr-image-card">
+                            <!-- Segmentation visualization -->
+                            <div class="col-lg-6">
 
-                            <h5 class="ctr-image-title">
-                                <i class="bi bi-image-fill me-2 section-icon"></i>
-                                Segmentation Result
-                            </h5>
+                                <div class="ctr-image-card">
 
-                            <img
-                                src="{{ img_path }}"
-                                class="ctr-result-image rounded shadow"
-                                alt="CTR Result">
+                                    <h5 class="ctr-image-title">
+                                        <i class="bi bi-image-fill me-2 section-icon"></i>
+                                        Segmentation Result
+                                    </h5>
+
+                                    <img
+                                        src="{{ img_path }}"
+                                        class="ctr-result-image rounded shadow"
+                                        alt="CTR Result">
+
+                                </div>
+
+                            </div>
+
+                            <!-- Quantitative CTR results and clinical interpretation -->
+                            <div class="col-lg-6">
+
+                                <div class="ctr-score-card">
+
+                                    <div class="ctr-label">
+
+                                        Cardiothoracic Ratio (CTR)
+
+                                    </div>
+
+                                    <div class="ctr-value">
+
+                                        {{ prediction['CTR'] }}
+
+                                    </div>
+
+                                    {% if prediction['CTR'] >= 0.667 %}
+
+                                        <div class="ctr-status abnormal">
+
+                                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                            Abnormal
+                                            
+                                        </div>
+
+
+                                    {% else %}
+
+                                        <div class="ctr-status normal">
+
+                                            <i class="bi bi-check-circle-fill me-2"></i>
+                                            Normal
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+                                <!-- ================= CTR VISUAL REFERENCE SCALE ================= -->
+                                <!--
+                                    Visualizes the patient's CTR value on a 0-1 scale.
+                                    The gauge highlights the clinical threshold used
+                                    for cardiomegaly assessment and displays the patient position.
+                                -->
+                                <div class="ctr-gauge-container">
+
+                                    <h6 class="text-muted mb-3">
+                                        CTR Reference Scale
+                                    </h6>
+
+                                    <div class="ctr-gauge">
+
+                                        <!-- Expected and abnormal CTR ranges -->
+                                        <div class="ctr-expected-zone"></div>
+                                        <div class="ctr-abnormal-zone"></div>
+
+                                        <!-- Clinical decision threshold -->
+                                        <div class="ctr-threshold"></div>
+        
+                                        <!-- Patient CTR position -->
+                                        {% set ctr_percent = prediction['CTR'] * 100 %}
+                                        <div 
+                                            class="ctr-marker"
+                                            style="left: {{ ctr_percent }}%;">
+                                        </div>
+
+                                    </div>
+
+                                    <!-- CTR scale reference points -->
+                                    <div class="ctr-scale-labels">
+                                        <span>0.0</span>
+                                        <span>0.4</span>
+                                        <span>0.667</span>
+                                        <span>1.0</span>
+                                    </div>
+
+                                    <div class="ctr-threshold-label">
+                                        Clinical threshold: 0.667
+                                    </div>
+
+                                </div>
+
+                                <div class="ctr-measurements">
+
+                                    <div class="ctr-measure-card">
+
+                                        <span>
+                                            Heart Size
+                                        </span>
+
+                                        <strong>
+                                            {{ prediction['heart size'] }} mm
+                                        </strong>
+
+                                    </div>
+
+                                    <div class="ctr-measure-card">
+
+                                        <span>
+                                            Thorax Size
+                                        </span>
+
+                                        <strong>
+                                            {{ prediction['thorax size'] }} mm
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="ctr-interpretation">
+
+                                    {% if prediction['CTR'] >= 0.667 %}
+
+                                        <strong class="text-danger">
+                                            Cardiomegaly suspected.
+                                        </strong>
+
+                                        <p class="mb-0 mt-2 clinical-text">
+                                            The cardiothoracic ratio exceeds the threshold of 0.67,
+                                            suggesting enlargement of the cardiac silhouette.
+                                            Clinical correlation with echocardiography and other
+                                            diagnostic findings is recommended.
+                                        </p>
+
+                                    {% else %}
+
+                                        <strong class="text-success">
+                                            No radiographic evidence of cardiomegaly.
+                                        </strong>
+
+                                        <p class="mb-0 mt-2 clinical-text">
+                                            The cardiothoracic ratio is within the normal range.
+                                            Clinical findings and additional diagnostic examinations
+                                            should be considered for complete cardiac evaluation.
+                                        </p>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
 
                         </div>
 
                     </div>
 
-                    <!-- Quantitative CTR results and clinical interpretation -->
-                    <div class="col-lg-6">
-
-                        <div class="ctr-score-card">
-
-                            <div class="ctr-label">
-
-                                Cardiothoracic Ratio (CTR)
-
-                            </div>
-
-                            <div class="ctr-value">
-
-                                {{ prediction['CTR'] }}
-
-                            </div>
-
-                            {% if prediction['CTR'] >= 0.667 %}
-
-                                <div class="ctr-status abnormal">
-
-                                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                                    Abnormal
-                                    
-                                </div>
-
-
-                            {% else %}
-
-                                <div class="ctr-status normal">
-
-                                    <i class="bi bi-check-circle-fill me-2"></i>
-                                    Normal
-
-                                </div>
-
-                            {% endif %}
-
-                        </div>
-
-                        <!-- ================= CTR VISUAL REFERENCE SCALE ================= -->
-                        <!--
-                            Visualizes the patient's CTR value on a 0-1 scale.
-                            The gauge highlights the clinical threshold used
-                            for cardiomegaly assessment and displays the patient position.
-                        -->
-                        <div class="ctr-gauge-container">
-
-                            <h6 class="text-muted mb-3">
-                                CTR Reference Scale
-                            </h6>
-
-                            <div class="ctr-gauge">
-
-                                <!-- Expected and abnormal CTR ranges -->
-                                <div class="ctr-expected-zone"></div>
-                                <div class="ctr-abnormal-zone"></div>
-
-                                <!-- Clinical decision threshold -->
-                                <div class="ctr-threshold"></div>
- 
-                                <!-- Patient CTR position -->
-                                {% set ctr_percent = prediction['CTR'] * 100 %}
-                                <div 
-                                    class="ctr-marker"
-                                    style="left: {{ ctr_percent }}%;">
-                                </div>
-
-                            </div>
-
-                            <!-- CTR scale reference points -->
-                            <div class="ctr-scale-labels">
-                                <span>0.0</span>
-                                <span>0.4</span>
-                                <span>0.667</span>
-                                <span>1.0</span>
-                            </div>
-
-                            <div class="ctr-threshold-label">
-                                Clinical threshold: 0.667
-                            </div>
-
-                        </div>
-
-                        <div class="ctr-measurements">
-
-                            <div class="ctr-measure-card">
-
-                                <span>
-                                    Heart Size
-                                </span>
-
-                                <strong>
-                                    {{ prediction['heart size'] }} mm
-                                </strong>
-
-                            </div>
-
-                            <div class="ctr-measure-card">
-
-                                <span>
-                                    Thorax Size
-                                </span>
-
-                                <strong>
-                                    {{ prediction['thorax size'] }} mm
-                                </strong>
-
-                            </div>
-
-                        </div>
-
-                        <div class="ctr-interpretation">
-
-                            {% if prediction['CTR'] >= 0.667 %}
-
-                                <strong class="text-danger">
-                                    Cardiomegaly suspected.
-                                </strong>
-
-                                <p class="mb-0 mt-2 clinical-text">
-                                    The cardiothoracic ratio exceeds the threshold of 0.67,
-                                    suggesting enlargement of the cardiac silhouette.
-                                    Clinical correlation with echocardiography and other
-                                    diagnostic findings is recommended.
-                                </p>
-
-                            {% else %}
-
-                                <strong class="text-success">
-                                    No radiographic evidence of cardiomegaly.
-                                </strong>
-
-                                <p class="mb-0 mt-2 clinical-text">
-                                    The cardiothoracic ratio is within the normal range.
-                                    Clinical findings and additional diagnostic examinations
-                                    should be considered for complete cardiac evaluation.
-                                </p>
-
-                            {% endif %}
-
-                        </div>
-
-                    </div>
-
                 </div>
 
-                <div class="text-center mt-4">
+                <div class="text-center">
 
                     <button id="btn-print" class="btn btn-print btn-lg">
                         <i class="bi bi-printer-fill me-2"></i>
