@@ -132,8 +132,16 @@ The proposed framework automatically performs:
 
 ## Example Result
 
+### VHS Estimation
+
 <p align="center">
 <img src="static/images/VHS_report_normal.png" width="900">
+</p>
+
+### CTR Estimation
+
+<p align="center">
+<img src="static/images/CTR_report_abnormal.png" width="900">
 </p>
 
 ---
