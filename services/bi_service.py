@@ -207,7 +207,7 @@ class BIService:
             or len(class_two_indices) == 0
         ):
             raise ValueError(
-                "Heart, T4 or Carina could not be detected."
+                "Heart, T6 or Carina could not be detected."
             )
 
         # Heart segmentation
@@ -296,10 +296,10 @@ class BIService:
 
         heart_minor_axis_length *= PIXEL_TO_MM
 
-        # T4 segmentation
+        # T6 segmentation
         (
-            t4_mask,
-            t4_contour,
+            t6_mask,
+            t6_contour,
             _
         ) = self._get_best_prediction(
             pred_masks,
@@ -308,53 +308,53 @@ class BIService:
             class_one_indices,
         )
 
-        # Fit an ellipse to the T4 contour for anatomical measurement
-        t4_ellipse = cv2.fitEllipse(t4_contour)
+        # Fit an ellipse to the T6 contour for anatomical measurement
+        t6_ellipse = cv2.fitEllipse(t6_contour)
 
         cv2.ellipse(
             image,
-            t4_ellipse,
+            t6_ellipse,
             (255, 255, 0),
             4,
         )
 
-        # Compute T4 vertebral size from the major axis of the fitted ellipse
-        t4_major_axis_length = max(
-            t4_ellipse[1][0],
-            t4_ellipse[1][1],
+        # Compute T6 vertebral size from the major axis of the fitted ellipse
+        t6_major_axis_length = max(
+            t6_ellipse[1][0],
+            t6_ellipse[1][1],
         )
 
-        t4_angle = t4_ellipse[2]
-        t4_angle_rad = np.deg2rad(t4_angle - 90)
+        t6_angle = t6_ellipse[2]
+        t6_angle_rad = np.deg2rad(t6_angle - 90)
 
-        t4_center = (
-            int(t4_ellipse[0][0]),
-            int(t4_ellipse[0][1]),
+        t6_center = (
+            int(t6_ellipse[0][0]),
+            int(t6_ellipse[0][1]),
         )
 
         endpoint1 = (
             int(
-                t4_center[0]
-                + (t4_major_axis_length / 2)
-                * np.cos(t4_angle_rad)
+                t6_center[0]
+                + (t6_major_axis_length / 2)
+                * np.cos(t6_angle_rad)
             ),
             int(
-                t4_center[1]
-                + (t4_major_axis_length / 2)
-                * np.sin(t4_angle_rad)
+                t6_center[1]
+                + (t6_major_axis_length / 2)
+                * np.sin(t6_angle_rad)
             ),
         )
 
         endpoint2 = (
             int(
-                t4_center[0]
-                - (t4_major_axis_length / 2)
-                * np.cos(t4_angle_rad)
+                t6_center[0]
+                - (t6_major_axis_length / 2)
+                * np.cos(t6_angle_rad)
             ),
             int(
-                t4_center[1]
-                - (t4_major_axis_length / 2)
-                * np.sin(t4_angle_rad)
+                t6_center[1]
+                - (t6_major_axis_length / 2)
+                * np.sin(t6_angle_rad)
             ),
         )
 
@@ -366,13 +366,13 @@ class BIService:
             4,
         )
 
-        t4_major_axis_length *= PIXEL_TO_MM
+        t6_major_axis_length *= PIXEL_TO_MM
 
         # VHS estimation
         bi = (
             heart_major_axis_length
             + heart_minor_axis_length
-        ) / t4_major_axis_length
+        ) / t6_major_axis_length
 
         if bi > BI_THRESHOLD:
             finding = "Probably has cardiomegaly"
@@ -390,7 +390,7 @@ class BIService:
 
         cv2.drawContours(
             image,
-            [t4_contour],
+            [t6_contour],
             -1,
             (255, 0, 255),
             5,
@@ -414,8 +414,8 @@ class BIService:
                 heart_minor_axis_length,
                 2,
             ),
-            "T4 size": round(
-                t4_major_axis_length,
+            "T6 size": round(
+                t6_major_axis_length,
                 2,
             ),
             "bi": round(
