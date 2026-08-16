@@ -71,7 +71,7 @@ The proposed framework automatically performs:
 
 - Heart
 - Thorax
-- Fourth thoracic vertebra (T4)
+- Sixth thoracic vertebra (T6)
 - Carina
 
 ✅ Automatic estimation of
@@ -237,7 +237,7 @@ Download the following files and place them in the `models/weights/` directory:
 ```text
 models/
 └── weights/
-    ├── model_4050_256_2_5e-3.pth   # VHS estimation model
+    ├── model_4050_512_2_5e-3.pth   # VHS estimation model
     └── model_5600_256_2_5e-3.pth   # CTR estimation model
 ```
 
