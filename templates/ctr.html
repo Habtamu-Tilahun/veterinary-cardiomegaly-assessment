@@ -387,6 +387,16 @@
             box-shadow: none;
         }
 
+        /* Print-specific report formatting */
+        @media print {
+
+            .new-page {
+                break-before: page;
+                page-break-before: always;
+            }
+
+        }
+
     </style>
 
 </head>
@@ -703,7 +713,7 @@
                                     The gauge highlights the clinical threshold used
                                     for cardiomegaly assessment and displays the patient position.
                                 -->
-                                <div class="ctr-gauge-container">
+                                <div class="ctr-gauge-container new-page">
 
                                     <h6 class="text-muted mb-3">
                                         CTR Reference Scale
@@ -846,7 +856,7 @@
         <script>
             window.onload = function () {
                 window.scrollTo({
-                    top: 730,
+                    top: 750,
                     behavior: "smooth"
                 });
             };
