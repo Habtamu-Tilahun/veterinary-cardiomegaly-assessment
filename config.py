@@ -25,5 +25,5 @@ BI_MODEL = {
     "config_path": BASE_DIR / "models/configs/config_4050_512_2_5e-3.yaml",
     "weights_path": BASE_DIR / "models/weights/model_4050_512_2_5e-3.pth",
     "score_thresh": 0.05,
-    "classes": {0: "heart", 1: "t4", 2: "carina"}
+    "classes": {0: "heart", 1: "t6", 2: "carina"}
 }
