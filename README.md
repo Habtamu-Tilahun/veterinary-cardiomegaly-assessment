@@ -19,7 +19,7 @@
 
 ## Overview
 
-This repository contains the official implementation accompanying the published paper:
+This repository contains the **inference and deployment implementation** accompanying the published paper:
 
 > **Deep learning framework for vertebral heart size and cardiothoracic ratio estimation in dogs and cats using thoracic radiographs**
 
