@@ -117,7 +117,7 @@ The proposed framework automatically performs:
 ## Vertebral Heart Size Estimation
 
 <p align="center">
-<img src="static/images/VHS_upload.png" width="900">
+<img src="static/images/VHS_radiograph_upload.png" width="900">
 </p>
 
 ---
