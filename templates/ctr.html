@@ -16,119 +16,10 @@
     <!-- Shared application styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
+    <!-- Shared VHS and CTR analysis styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/analysis.css') }}">
+
     <style>
-
-        /* Introduction section describing the CTR analysis workflow */
-        .hero-card{
-            background:white;
-            border:none;
-            border-radius:18px;
-            box-shadow:0 10px 25px rgba(0,0,0,.08);
-            padding:25px;
-            padding-bottom:15px;
-            margin-top:40px;
-            margin-bottom:35px;
-        }
-
-        .hero-title{
-            font-size:34px;
-            color:var(--primary);
-            font-weight:700;
-        }
-
-        .hero-text{
-            color:#6c757d;
-            font-size:17px;
-            line-height:1.8;
-        }
-
-        /* User interface for uploading veterinary thoracic radiographs */
-        .upload-card{
-            border:none;
-            border-radius:18px;
-            box-shadow:0 10px 25px rgba(0,0,0,.08);
-            background:white;
-            padding:25px;
-        }
-
-        .section-title{
-            font-weight:700;
-            color:var(--primary);
-        }
-
-        /* Drag-and-drop component for radiograph selection */
-        .drop-zone{
-            border:3px dashed var(--accent);
-            border-radius:18px;
-            padding:10px 18px 18px;
-            text-align:center;
-            cursor:pointer;
-            transition:.3s;
-            background:#f9fbff;
-        }
-
-        .drop-zone:hover{
-            background:#eef5ff;
-        }
-
-        .drop-zone.dragover{
-            background:#dbeeff;
-        }
-
-        .drop-zone i{
-            font-size:55px;
-            color:var(--accent);
-        }
-
-        /* Displays the selected radiograph before AI inference */
-        .preview{
-            display:none;
-            max-width:100%;
-            border-radius:12px;
-            margin-top:20px;
-            box-shadow:0 6px 20px rgba(0,0,0,.12);
-        }
-
-        /* Action button that triggers AI inference */
-        .btn-run{
-            background:var(--secondary);
-            border:none;
-            color:white;
-            padding:12px 40px;
-            font-size:18px;
-            border-radius:10px;
-            font-weight:600;
-            transition:.3s;
-        }
-
-        .btn-run:hover{
-            background:#1e4f86;
-            color:white;
-        }
-
-        .btn-run:focus,
-        .btn-run:active{
-            background:#1e4f86!important;
-            border-color: #1e4f86 !important;
-            color:white!important;
-            box-shadow:none;
-        }
-
-        /* Feedback shown during model inference */
-        #loading{
-            display:none;
-            position:fixed;
-            inset:0;
-            background:rgba(255,255,255,.92);
-            z-index:9999;
-            align-items:center;
-            justify-content:center;
-            flex-direction:column;
-        }
-
-        .spinner-custom{
-            color:var(--accent);
-        }
 
         /* CTR report layout for presenting model output and clinical interpretation */
         .ctr-report-wrapper{
@@ -159,10 +50,6 @@
             border:1px solid #e5e7eb;
             padding:20px;
             text-align:center;
-        }
-
-        .section-icon{
-            color: var(--accent);
         }
 
         .ctr-image-title{
@@ -263,10 +150,6 @@
             color:var(--primary);
         }
 
-        .clinical-text{
-            text-align: justify;
-        }
-
         /* Visual reference scale showing CTR position relative to clinical threshold */
         .ctr-gauge-container{
             margin-top:25px;
@@ -359,42 +242,6 @@
             color:var(--primary);
             margin-top:8px;
             font-weight:600;
-        }
-
-        /* Report export action button */
-        .btn-print{
-            background:var(--secondary);
-            border:none;
-            color: #fff;
-            padding:12px 40px;
-            font-size:18px;
-            border-radius:10px;
-            font-weight:600;
-            transition:.3s;
-            margin-bottom: 25px;
-        }
-
-        .btn-print:hover{
-            background:#1e4f86;
-            color: #fff;
-        }
-
-        .btn-print:focus,
-        .btn-print:active{
-            background: #1e4f86 !important;
-            border-color: #1e4f86 !important;
-            color: #fff !important;
-            box-shadow: none;
-        }
-
-        /* Print-specific report formatting */
-        @media print {
-
-            .new-page {
-                break-before: page;
-                page-break-before: always;
-            }
-
         }
 
     </style>

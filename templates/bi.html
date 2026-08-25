@@ -14,120 +14,11 @@
 
     <!-- Shared application styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Shared VHS and CTR analysis styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/analysis.css') }}">
 
     <style>     
-
-        /* Hero Section */
-        .hero-card{
-            background:white;
-            border:none;
-            border-radius:18px;
-            box-shadow:0 10px 25px rgba(0,0,0,.08);
-            padding:25px;
-            padding-bottom:15px;
-            margin-top:40px;
-            margin-bottom:35px;
-        }
-
-        .hero-title{
-            font-size:34px;
-            color:var(--primary);
-            font-weight:700;
-        }
-
-        .hero-text{
-            color:#6c757d;
-            font-size:17px;
-            line-height:1.8;
-        }
-
-        /* Image Upload Component */
-        .upload-card{
-            border:none;
-            border-radius:18px;
-            box-shadow:0 10px 25px rgba(0,0,0,.08);
-            background:white;
-            padding:25px;
-        }
-
-        .section-title{
-            font-weight:700;
-            color:var(--primary);
-        }
-
-        /* Drag-and-Drop Input */
-        .drop-zone{
-            border:3px dashed var(--accent);
-            border-radius:18px;
-            padding:10px 18px 18px;
-            text-align:center;
-            cursor:pointer;
-            transition:.3s;
-            background:#f9fbff;
-        }
-
-        .drop-zone:hover{
-            background:#eef5ff;
-        }
-
-        .drop-zone.dragover{
-            background:#dbeeff;
-        }
-
-        .drop-zone i{
-            font-size:55px;
-            color:var(--accent);
-        }
-
-        /* Uploaded radiograph preview */
-        .preview{
-            display:none;
-            max-width:100%;
-            border-radius:12px;
-            margin-top:20px;
-            box-shadow:0 6px 20px rgba(0,0,0,.12);
-        }
-
-        /* Button for Launching AI Analysis */
-        .btn-run{
-            background:var(--secondary);
-            border:none;
-            color: #fff;
-            padding:12px 40px;
-            font-size:18px;
-            border-radius:10px;
-            font-weight:600;
-            transition:.3s;
-        }
-
-        .btn-run:hover{
-            background:#1e4f86;
-            color: #fff;
-        }
-
-        .btn-run:focus,
-        .btn-run:active{
-            background: #1e4f86 !important;
-            border-color: #1e4f86 !important;
-            color: #fff !important;
-            box-shadow: none;
-        }
-
-        /* Inference Loading Overlay */
-        #loading{
-            display:none;
-            position:fixed;
-            inset:0;
-            background:rgba(255,255,255,.92);
-            z-index:9999;
-            align-items:center;
-            justify-content:center;
-            flex-direction:column;
-        }
-
-        .spinner-custom{
-            color: var(--accent);
-        }
 
         /* Analysis Report */
         .report-header{
@@ -147,10 +38,6 @@
             border-bottom:1px solid #e2e8f0;
             padding:16px 20px;
             color:var(--primary);
-        }
-
-        .section-icon{
-            color: var(--accent);
         }
 
         .result-image{
@@ -192,43 +79,8 @@
             font-weight:700;
         }
 
-        .clinical-text{
-            text-align: justify;
-        }
-
-        /* Report Export Action */
-        .btn-print{
-            background:var(--secondary);
-            border:none;
-            color: #fff;
-            padding:12px 40px;
-            font-size:18px;
-            border-radius:10px;
-            font-weight:600;
-            transition:.3s;
-            margin-bottom: 25px;
-        }
-
-        .btn-print:hover{
-            background:#1e4f86;
-            color: #fff;
-        }
-
-        .btn-print:focus,
-        .btn-print:active{
-            background: #1e4f86 !important;
-            border-color: #1e4f86 !important;
-            color: #fff !important;
-            box-shadow: none;
-        }
-
         /* Print-specific report formatting */
         @media print {
-
-            .new-page {
-                break-before: page;
-                page-break-before: always;
-            }
 
             .report-inner-card {
                 break-inside: avoid;
@@ -293,7 +145,7 @@
         </div>
 
     </nav>
-
+    
     <div class="container my-5">
 
         <!-- VHS estimation overview -->
