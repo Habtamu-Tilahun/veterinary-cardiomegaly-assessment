@@ -106,6 +106,8 @@ The proposed framework automatically performs:
 
 # Web Application
 
+The web application provides a simple interface for uploading thoracic radiographs, running AI-based analysis, visualizing segmentation results, and reviewing quantitative measurements and clinical interpretations.
+
 ## Home Page
 
 <p align="center">
@@ -114,15 +116,25 @@ The proposed framework automatically performs:
 
 ---
 
-## Vertebral Heart Size Estimation
+## Radiograph Upload
+
+### VHS Estimation
 
 <p align="center">
 <img src="static/images/VHS_radiograph_upload.png" width="900">
 </p>
 
+### CTR Estimation
+
+<p align="center">
+<img src="static/images/CTR_upload.png" width="900">
+</p>
+
 ---
 
-## Analyzing Radiograph
+## AI Analysis
+
+During inference, the application segments the relevant anatomical structures and performs the corresponding quantitative measurements.
 
 <p align="center">
 <img src="static/images/Spinner.png" width="900">
@@ -130,7 +142,7 @@ The proposed framework automatically performs:
 
 ---
 
-## Example Result
+## Example Results
 
 ### VHS Estimation
 
