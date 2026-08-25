@@ -27,7 +27,8 @@ static/images/*
 # Keep website assets
 !static/images/homepage.png
 !static/images/workflow.jpg
-!static/images/VHS_upload.png
+!static/images/VHS_radiograph_upload.png
+!static/images/CTR_upload.png
 !static/images/Spinner.png
 !static/images/VHS_report_normal.png
 !static/images/CTR_report_abnormal.png
